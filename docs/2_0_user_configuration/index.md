@@ -23,12 +23,13 @@ Each tab carries a status LED so you can see the overall state at a glance:
 
 Connect to the Machine Vision Device by entering the **IP address** (default `192.168.100.1`) and the **port** (default `6008`), then setting the connection slider to **on**. By default, **auto connect at startup** is active.
 
-<!-- PLACEHOLDER IMAGE: Connection tab with IP, port and connection slider -->
-![TODO: Connection tab](images/01_connection_tab.png)
+<figure class="align-left">
+<img src="images/01_connection_tab.png" alt="Connection tab" class="uniform-width-800"/>
+</figure>
 
-!!! note
-
-    Make sure the robot and the Machine Vision Device are in the same network.
+> NOTE
+>
+> Make sure the robot and the Machine Vision Device are in the same network.
 
 The connection tab shows three status indicators:
 
@@ -40,26 +41,28 @@ The connection tab shows three status indicators:
 
 ## Calibration options tab
 
-Select whether the camera is **mounted on the robot** or **not on the robot**, and choose the size of the **ZVZJ calibration plate**.
+Select whether the camera is **mounted on the robot** or **not on the robot**, and choose the size of the **ZVZJ calibration target**. This is the same target selection used by the **Detect target** and **Calibrate to target** program nodes — their "target index" selects among the target sizes configured here, not a separate per-job target list (see [UR Program](../3_0_robot_program/index.md)).
 
 Enter the name of the uniVision job for calibration and load it — this job is loaded every time the calibration procedure is started. Set the number of calibration poses between **5 and 11** (default: 5). More poses generally improve the calibration result (e.g. seven to eleven poses).
 
 The tab also provides further information about how to set the calibration poses, including example images from the camera's perspective for the **Set calibration poses** tab.
 
-<!-- PLACEHOLDER IMAGE: Calibration options tab (mounting, plate size, job, pose count) -->
-![TODO: Calibration options tab](images/02_calibration_options_tab.png)
+<figure class="align-left">
+<img src="images/02_calibration_options_tab.png" alt="Calibration options tab" class="uniform-width-800"/>
+</figure>
 
 ## Set calibration poses tab
 
 The calibration poses differ between **camera on robot** and **camera not on robot**. The number of buttons for setting the poses depends on the pose count chosen in the calibration options tab.
 
-<!-- PLACEHOLDER IMAGE: Set calibration poses tab with pose buttons and camera preview -->
-![TODO: Set calibration poses tab](images/03_set_calibration_poses_tab.png)
+<figure class="align-left">
+<img src="images/03_set_calibration_poses_tab.png" alt="Set calibration poses tab" class="uniform-width-800"/>
+</figure>
 
-!!! note
-
-    - For details about how to choose and vary the calibration poses, see the [Calibration Guidelines](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_1_calibration_guidelines/) in the wenglor robot vision manual — they are not repeated here.
-    - For **camera on robot**, keep in mind that the **first calibration pose is also the detection pose** used later.
+> NOTE
+>
+> - For details about how to choose and vary the calibration poses, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual — they are not repeated here.
+> - For **camera on robot**, keep in mind that the **first calibration pose is also the detection pose** used later.
 
 ## Calibration tab
 
@@ -73,8 +76,20 @@ The calibration tab has a **system status LED** that combines the connection sta
 
 Calibration can only be started when the system status LED is **green**. When it starts, the *uniVision job for calibration* is loaded. Each successful calibration creates a separate calibration file with an ascending number on the Machine Vision Device at `/media/card/calibration`. By default the latest calibration file is used; another file can be loaded on the device website under the **Jobs** tab.
 
-<!-- PLACEHOLDER IMAGE: Calibration tab with system status LED and start button -->
-![TODO: Calibration tab](images/04_calibration_tab.png)
+> NOTE
+>
+> For **camera not on robot**, the robot-to-camera calibration (step 1) and the camera-to-ground calibration (step 2) are tracked as separate calibration states internally. If only one of them has valid data, the tab reports which one is missing so you know which step to repeat.
+
+<figure class="align-left">
+<img src="images/04_calibration_tab.png" alt="Calibration tab" class="uniform-width-800"/>
+</figure>
+
+```mermaid
+graph TD
+    Start(["Start calibration"]) --> Mounting{"Camera mounting?"}
+    Mounting -- "on robot" --> Step1On["Load calibration job and move to configured calibration poses"] --> VerifyOn["2. Verify calibration (optional)"] --> DoneOn["Calibration complete"]
+    Mounting -- "not on robot" --> Step1Off["Step 1: Mount calibration target on robot; load calibration job and move to configured calibration poses"] --> Step2Off["Step 2: Unmount target, place it on the object plane, ensure it is visible to the camera"] --> Trigger["Trigger second calibration step (one image captured)"] --> VerifyOff["3. Verify calibration (optional)"] --> DoneOff["Calibration complete"]
+```
 
 ### Camera on robot
 
@@ -84,16 +99,33 @@ Only **one calibration step** is required. When the calibration starts, the robo
 
 The calibration requires **two steps**:
 
-1. **First step:** Mount the calibration plate on the robot. The robot loads the calibration job and automatically moves to the configured calibration poses.
-2. **Second step:** Unmount the calibration plate from its holder and place it on the object plane. Make sure the plate is visible to the camera (move the robot arm away so it does not interfere) — check the camera image in the **Set calibration poses** tab. When the plate is placed, trigger the second calibration step. Only **one image** is captured for this step.
+1. **First step:** Mount the calibration target on the robot. The robot loads the calibration job and automatically moves to the configured calibration poses.
+2. **Second step:** Unmount the calibration target from its holder and place it on the object plane. Make sure the target is visible to the camera (move the robot arm away so it does not interfere) — check the camera image in the **Set calibration poses** tab. When the target is placed, trigger the second calibration step. Only **one image** is captured for this step.
 
-Calculating the calibration results takes some time — wait until the calibration is completed.
+> NOTE
+>
+>Calculating the calibration results takes some time — wait until the calibration is completed.
+
+### Verify calibration
+
+After calibration data is loaded (either just calculated or loaded from a previous file), an additional **verify calibration** step is available — step 2 for camera on robot, step 3 for camera not on robot:
+
+1. Set the **Verification safety offset [mm]** — the robot is guided to a pose this many centimeters **above** the calibration target, rather than directly onto it, as a collision margin.
+2. Click **Start guidance** to confirm ("You are about to verify loaded calibration results, do you want to proceed?") and move the robot above the calibration target using the current calibration result. Cancel if the target has been moved since calibrating.
+3. Visually check that the robot is positioned correctly above the target. If not, the calibration data may be corrupt — recalibrate.
+
+> NOTE
+>
+> For **camera not on robot**, the robot-to-camera and camera-to-ground calibrations are tracked and can be verified independently. If one of them is missing, the URCap reports it (e.g. "No robot to camera calibration data found, perform those calibrations first") instead of starting the guidance move.
+>
+> If a previous calibration attempt failed, the URCap warns that the calibration data may be corrupt and that verification is not safe before you proceed.
 
 ## Information tab
 
 The information tab contains details about the different versions as well as the status of the Processing Instance.
 
-<!-- PLACEHOLDER IMAGE: Information tab with versions and Processing Instance status -->
-![TODO: Information tab](images/05_information_tab.png)
+<figure class="align-left">
+<img src="images/05_information_tab.png" alt="Information tab" class="uniform-width-800"/>
+</figure>
 
 Once the calibration is complete, continue with the [UR Program](../3_0_robot_program/index.md).

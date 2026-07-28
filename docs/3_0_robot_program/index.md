@@ -1,6 +1,6 @@
 # UR Program
 
-The **wenglor robot vision** URCap adds program nodes to change the uniVision job, detect objects, get the object pose, and detect the calibration target.
+The **wenglor robot vision** URCap adds program nodes to change the uniVision job, detect objects, get the object pose, detect the calibration target, and recalibrate to the target.
 
 Switch to the **Program** tab on the UR side to build the robot program. The program nodes appear in the **URCaps** section of the left-hand drop-down menu.
 
@@ -12,11 +12,9 @@ Switch to the **Program** tab on the UR side to build the robot program. The pro
 | **Detect objects** | Triggers a detection and fills the robot-server buffer. Writes the number of found objects into `we_num_objects`. Acts as a parent node for **Get object pose**. |
 | **Get object pose** | Reads one object from the buffer: the 3D pose into `we_object_pose`, the shape model ID into `we_shape_model`, the additional value into `we_custom_value`, and a validity flag into `we_pose_valid`. |
 | **Detect target** | Detects the calibration target and writes its pose into `we_target_pose` (plus `we_custom_value` and `we_pose_valid`). |
+| **Calibrate to target** | Recalibrates the camera-to-ground relation against the calibration target, without creating a new calibration file (the result is only cached). |
 
 For the full node and variable reference and the unit conventions, see [Node reference](#node-reference) below.
-
-<!-- PLACEHOLDER IMAGE: URCaps program node list in the left drop-down menu -->
-![TODO: URCaps program node list](images/01_urcaps_node_list.png)
 
 ## Program variables
 
@@ -38,13 +36,18 @@ The examples use these program variables (prefix `we_`), initialized in the **In
 
 Add the **Change job** node and enter the name of the uniVision job file (e.g. `find_objects.u3p`). To test the validity of the job name, load it with the **Test loading job** button.
 
-<!-- PLACEHOLDER IMAGE: Change job node with job name field and Test loading job button -->
-![TODO: Change job node](images/02_change_job_node.png)
+<figure class="align-left">
+<img src="images/01_change_job_node.png" alt="Change job node" class="uniform-width-800"/>
+</figure>
 
 ## Detection pose
 
 - **Camera not on robot:** Teach a fixed `detection_pose` waypoint to keep the robot out of the camera's field of view while it captures images.
 - **Camera on robot:** Move the robot to the detection pose so that the camera can check for objects. This detection pose **must be the one from the URCap** (identical to the first calibration pose), and is used as the `detection_pose` **feature**. To update it, set the detection pose on the URCap installation page and **re-run the calibration process**.
+
+<figure class="align-left">
+<img src="images/02_detection_pose.png" alt="Detection Pose" class="uniform-width-800"/>
+</figure>
 
 ## Detect objects
 
@@ -52,8 +55,9 @@ Add the **Detect objects** node. It triggers a detection and sets `we_num_object
 
 Always check `we_pose_valid` before using the pose — the examples pop up an error and halt if it is `False`. You can add conditional checks on `we_shape_model` or `we_custom_value` to branch per object type.
 
-<!-- PLACEHOLDER IMAGE: Detect objects node containing a Get object pose node -->
-![TODO: Detect objects node](images/03_detect_objects_node.png)
+<figure class="align-left">
+<img src="images/03_detect_objects_node.png" alt="Detect objects node" class="uniform-width-800"/>
+</figure>
 
 ## Example programs
 
@@ -68,8 +72,9 @@ Both programs contain the same three subprograms, called with the **Call** comma
 - `multi_detection`
 - `update_reference_frame`
 
-<!-- PLACEHOLDER IMAGE: Program tree with single_detection, multi_detection, update_reference_frame -->
-![TODO: Example subprograms](images/04_example_subprograms.png)
+<figure class="align-left">
+<img src="images/03_example_subroutines.png" alt="Example subprograms" class="uniform-width-800"/>
+</figure>
 
 ```mermaid
 graph TD
@@ -94,7 +99,7 @@ graph TD
 
 ### `single_detection`
 
-Changes to the detection job (`find_objects.u3p`), moves to the detection pose, runs **Detect objects**, and reads one object with **Get object pose**. After validating `we_pose_valid`, it moves to the object with reduced speed (a `Pick object` folder) and provides placeholder `Pick object` / `Place object` folders for your gripping and placing logic.
+Changes to the detection job (`find_objects.u3p`), moves to the detection pose, runs **Detect objects**, and reads one object with **Get object pose**. After validating `we_pose_valid`, it moves to the object at reduced speed, then provides placeholder `Pick object` / `Place object` folders for your gripping and placing logic.
 
 ### `multi_detection`
 
@@ -102,9 +107,9 @@ Like `single_detection`, but wraps **Get object pose** in a **`while we_num_obje
 
 ### `update_reference_frame`
 
-Run from the **Main** program. It shows how the calibration target pose can update a reference frame — and, with it, all related poses (see the [Calibration Guidelines](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_1_calibration_guidelines/) in the wenglor robot vision manual). Typical use is mobile platforms, correcting the positional deviation in front of a machine or shelf.
+Run from the **Main** program. It shows how the calibration target pose can update a reference frame — and, with it, all related poses (see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual). Typical use is mobile platforms, correcting the positional deviation in front of a machine or shelf.
 
-The **Detect target** node is the URCap front end for the `target:pose` command described in [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/) in the wenglor robot vision manual — that page also covers `calibration:target`, which this URCap does not expose as a separate node.
+The **Detect target** node is the URCap front end for the `target:pose` command described in [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/) in the wenglor robot vision manual — that page also covers `calibration:target`, which this URCap exposes as its own **Calibrate to target** node (see below).
 
 The example flow:
 
@@ -114,18 +119,32 @@ The example flow:
 4. If `poses_taught == False`, the program shows a message asking you to teach the poses relative to `w_ref_frame`, set `poses_taught` to `True`, and restart — then halts.
 5. On the next run (with `poses_taught == True`), the reference is updated and the robot moves to the poses taught relative to `w_ref_frame` (e.g. `pose_in_machine`).
 
-!!! warning
+> WARNING
+>
+> - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation before shutting down the robot**, otherwise the update is lost.
+> - The program reads installation feature values only at program start, which is why the **Assignment** node is required to update `w_ref_frame` within the run so the same run can use the updated value.
+> - When teaching your machine poses, select `w_ref_frame` as the **feature**.
 
-    - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation before shutting down the robot**, otherwise the update is lost.
-    - The program reads installation feature values only at program start, which is why the **Assignment** node is required to update `w_ref_frame` within the run so the same run can use the updated value.
-    - When teaching your machine poses, select `w_ref_frame` as the **feature**.
+### Calibrate to target
 
-<!-- PLACEHOLDER IMAGE: update_reference_frame with Detect target, Assignment to w_ref_frame, and the poses_taught check -->
-![TODO: update_reference_frame](images/05_update_reference_frame.png)
+The **Calibrate to target** node recalibrates the camera-to-ground relation directly against the calibration target. Unlike the **Calibration** procedure on the installation page, it does **not** create a new numbered calibration file on the Machine Vision Device — the result is only cached and used for the rest of the session.
 
-!!! note
+To use the node:
 
-    The example programs (`Camera_on_robot_example`, `Camera_not_on_robot_example`) and the URCap are available on [www.wenglor.com/product/DNNF023](https://www.wenglor.com/product/DNNF023) → Downloads → Programming examples and configuration files → Examples_Robot_Vision, and in this repository's [`sources`](https://github.com/wenglor/robot-vision-ur-polyscope5/tree/main/sources) directory.
+1. Place it in the program and select the same **calibration target** configured on the installation's **Calibration options** tab.
+2. Move the robot to a pose where the target is visible before running the node.
+3. Run the node. It requires an active connection to the Machine Vision Device (set up on the URCap installation page); otherwise it reports an error and does nothing.
+4. On success, the node reports "Calibration to target successful".
+
+Use **Test calibration** in the node's view to try the recalibration interactively while editing the program.
+
+> NOTE
+>
+> The example programs do not call **Calibrate to target** — add it to your own program if you need to recalibrate to the target at runtime (e.g. after a mobile platform docks) without going through the full installation **Calibration** procedure.
+
+> NOTE
+>
+> The example programs (`Camera_on_robot_example`, `Camera_not_on_robot_example`) and the URCap are available in this repository's [`sources`](https://github.com/wenglor/robot-vision-ur-polyscope5/tree/main/sources) directory.
 
 ## Node reference
 
@@ -138,7 +157,7 @@ Configured once under **Installation → URCaps → "wenglor robot vision"**. Se
 | Tab | Configures |
 | --- | --- |
 | **Connection** | IP address (default `192.168.100.1`), port (default `6008`), connection slider, auto connect at startup. |
-| **Calibration options** | Camera on/not on robot, ZVZJ plate size, calibration job name, number of calibration poses (5–11). |
+| **Calibration options** | Camera on/not on robot, ZVZJ calibration target size, calibration job name, number of calibration poses (5–11). |
 | **Set calibration poses** | The individual calibration poses; for camera on robot, the first pose is also the detection pose. |
 | **Calibration** | Starts the calibration procedure; stores a numbered calibration file on the device. |
 | **Information** | Version information and Processing Instance status. |
@@ -153,12 +172,13 @@ Placed in the robot program from the **URCaps** section of the left-hand drop-do
 | **Detect objects** | — | Triggers a detection and fills the robot-server buffer. Sets `we_num_objects`. Acts as parent for **Get object pose**. |
 | **Get object pose** | (reads the next object from the buffer) | Sets `we_object_pose`, `we_shape_model`, `we_custom_value`, and `we_pose_valid`. |
 | **Detect target** | target index (`targetSelectorDetectTargetIndexKey`, default `0`) | Detects the calibration target; sets `we_target_pose`, `we_custom_value`, and `we_pose_valid`. Front end for the `target:pose` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/). |
+| **Calibrate to target** | target index (`targetSelectorCalibrateTargetIndexKey`) | Recalibrates the camera-to-ground relation against the target; result is cached only (no new calibration file). Requires an active device connection. Front end for the `calibration:target` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/). |
 
 Updating the `w_ref_frame` reference frame is **not** a dedicated node: the example uses a standard **Assignment** node to assign `we_target_pose` (from **Detect target**) to the `w_ref_frame` installation feature.
 
-!!! note
-
-    The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_5_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
+> NOTE
+>
+> The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
 
 ### Program variables
 
@@ -190,4 +210,4 @@ The generic robot vision API uses the following conventions, which the URCap map
 - Positions `x, y, z` are exchanged in **meters** — the same unit UR uses for poses.
 - Orientations `rx, ry, rz` are exchanged as a **rotation vector** (Rodrigues convention, in radians) — the same convention UR uses for its pose orientation.
 
-Because UR poses already use meters and a rotation vector, the pose format matches the generic API directly. See the command tables in the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_5_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
+Because UR poses already use meters and a rotation vector, the pose format matches the generic API directly. See the command tables in the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.

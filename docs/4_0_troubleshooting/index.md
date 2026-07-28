@@ -13,7 +13,7 @@ The **Connection** tab LED is red or the connection status is red:
 - Check the cables and the network setup — the robot and the Machine Vision Device must be in the **same network**.
 - Verify the IP address (default `192.168.100.1`) and port (default `6008`) in the **Connection** tab.
 - Make sure **RTDE** (Real Time Data Exchange) is enabled in the UR security settings.
-- Ensure the robot server on the device is active with **UR Polyscope 5 URCap** selected as the robot manufacturer (device website → Jobs → Robot Server). See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_2_0_settings_on_device_website/) in the wenglor robot vision manual.
+- Ensure the robot server on the device is active with **UR Polyscope 5 URCap** selected as the robot manufacturer (device website → Jobs → Robot Server). See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
 
 ## Processing Instance or Device Robot Vision status is red
 
@@ -32,17 +32,17 @@ Calibration can only be started when the **Calibration** tab system status LED i
 
 ## Calibration incomplete (camera not on robot)
 
-- A yellow **Calibration** tab LED can mean the **second calibration step** is missing. For camera-not-on-robot, place the calibration plate on the object plane and trigger the second step (one image is captured). See [User Configuration → Camera not on robot](../2_0_user_configuration/index.md#camera-not-on-robot).
+- A yellow **Calibration** tab LED can mean the **second calibration step** is missing. For camera-not-on-robot, place the calibration target on the object plane and trigger the second step (one image is captured). See [User Configuration → Camera not on robot](../2_0_user_configuration/index.md#camera-not-on-robot).
 - Calculating the calibration results takes some time — wait until it completes.
 
 ## Insufficient calibration accuracy
 
 - Use more than five calibration poses (seven to eleven give better results). Set the count in the **Calibration options** tab.
 - Increase the variation between poses — the variance of the calibration *movements* matters more than the variance of the poses.
-- Make sure the calibration plate covers as much of the camera image as possible and is fully visible.
-- Prefer a wenglor ZVZJ calibration target and select the correct plate size.
+- Make sure the calibration target covers as much of the camera image as possible and is fully visible.
+- Prefer a wenglor ZVZJ calibration target and select the correct target size.
 
-For the general calibration guidelines, see the [Calibration Guidelines](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_1_calibration_guidelines/) in the wenglor robot vision manual.
+For the general calibration guidelines, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual.
 
 ## Detection pose issues (camera on robot)
 
@@ -55,4 +55,4 @@ For the general calibration guidelines, see the [Calibration Guidelines](https:/
 
 ## Error codes returned by the device
 
-If the robot server returns a negative error code (`-5001` … `-5010`), it indicates a problem on the vision-device side. For the meaning of each code, see the [Generic Robot Vision Interface → Error codes](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_5_0_generic_robot_vision_interface/#error-codes) in the wenglor robot vision manual.
+If the robot server returns a negative error code (`-5001` … `-5010`), it indicates a problem on the vision-device side. For the meaning of each code, see the [Generic Robot Vision Interface → Error codes](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/#error-codes) in the wenglor robot vision manual.
