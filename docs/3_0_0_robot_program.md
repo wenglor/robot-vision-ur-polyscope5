@@ -1,4 +1,4 @@
-# UR Program
+# 3. UR Program
 
 The **wenglor robot vision** URCap adds program nodes to change the uniVision job, detect objects, get the object pose, detect the calibration target, and recalibrate to the target.
 
@@ -20,6 +20,9 @@ For the full node and variable reference and the unit conventions, see [Node ref
 
 The examples use these program variables (prefix `we_`), initialized in the **Init Variables** section:
 
+/// html | div.col-widths
+    attrs: {style: "--w1: 30%; --w2: 15%; --w3: 55%;"}
+
 | Variable | Type | Meaning |
 | --- | --- | --- |
 | `we_object_pose` | pose | The 3D object pose returned by **Get object pose**. |
@@ -29,6 +32,7 @@ The examples use these program variables (prefix `we_`), initialized in the **In
 | `we_custom_value` | string | An additional value linked in uniVision (e.g. the detection score). |
 | `we_pose_valid` | boolean | Whether the returned pose is valid — check this before moving. |
 | `we_logging_on` | boolean | If `True`, the wenglor nodes write messages to the robot log. |
+///
 
 `poses_taught` (boolean, in the **Before Start** section) is used by the reference-frame update flow — see [`update_reference_frame`](#update_reference_frame).
 
@@ -119,11 +123,11 @@ The example flow:
 4. If `poses_taught == False`, the program shows a message asking you to teach the poses relative to `w_ref_frame`, set `poses_taught` to `True`, and restart — then halts.
 5. On the next run (with `poses_taught == True`), the reference is updated and the robot moves to the poses taught relative to `w_ref_frame` (e.g. `pose_in_machine`).
 
-> WARNING
->
-> - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation before shutting down the robot**, otherwise the update is lost.
-> - The program reads installation feature values only at program start, which is why the **Assignment** node is required to update `w_ref_frame` within the run so the same run can use the updated value.
-> - When teaching your machine poses, select `w_ref_frame` as the **feature**.
+!!! warning
+
+    - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation before shutting down the robot**, otherwise the update is lost.
+    - The program reads installation feature values only at program start, which is why the **Assignment** node is required to update `w_ref_frame` within the run so the same run can use the updated value.
+    - When teaching your machine poses, select `w_ref_frame` as the **feature**.
 
 ### Calibrate to target
 
@@ -138,13 +142,13 @@ To use the node:
 
 Use **Test calibration** in the node's view to try the recalibration interactively while editing the program.
 
-> NOTE
->
-> The example programs do not call **Calibrate to target** — add it to your own program if you need to recalibrate to the target at runtime (e.g. after a mobile platform docks) without going through the full installation **Calibration** procedure.
+!!! note
 
-> NOTE
->
-> The example programs (`Camera_on_robot_example`, `Camera_not_on_robot_example`) and the URCap are available in this repository's [`sources`](https://github.com/wenglor/robot-vision-ur-polyscope5/tree/main/sources) directory.
+    The example programs do not call **Calibrate to target** — add it to your own program if you need to recalibrate to the target at runtime (e.g. after a mobile platform docks) without going through the full installation **Calibration** procedure.
+
+!!! note
+
+    The example programs (`Camera_on_robot_example`, `Camera_not_on_robot_example`) and the URCap are available in this repository's [`sources`](https://github.com/wenglor/robot-vision-ur-polyscope5/tree/main/sources) directory.
 
 ## Node reference
 
@@ -152,7 +156,7 @@ Look-up reference for the **wenglor robot vision** URCap: the installation nodes
 
 ### Installation nodes (tabs)
 
-Configured once under **Installation → URCaps → "wenglor robot vision"**. See [User Configuration](../2_0_user_configuration/index.md) for details.
+Configured once under **Installation → URCaps → "wenglor robot vision"**. See [User Configuration](2_0_0_user_configuration.md) for details.
 
 | Tab | Configures |
 | --- | --- |
@@ -176,13 +180,16 @@ Placed in the robot program from the **URCaps** section of the left-hand drop-do
 
 Updating the `w_ref_frame` reference frame is **not** a dedicated node: the example uses a standard **Assignment** node to assign `we_target_pose` (from **Detect target**) to the `w_ref_frame` installation feature.
 
-> NOTE
->
-> The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
+!!! note
+
+    The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
 
 ### Program variables
 
 Set by the URCap nodes and used in the example programs (prefix `we_`):
+
+/// html | div.col-widths
+    attrs: {style: "--w1: 25%; --w2: 10%; --w3: 30%; --w4: 35%;"}
 
 | Variable | Type | Set by | Description |
 | --- | --- | --- | --- |
@@ -193,8 +200,12 @@ Set by the URCap nodes and used in the example programs (prefix `we_`):
 | `we_custom_value` | string | Get object pose / Detect target | Additional value linked in uniVision (e.g. detection score). |
 | `we_pose_valid` | boolean | Get object pose / Detect target | Validity flag — check before moving to the pose. |
 | `we_logging_on` | boolean | Change job / Detect objects (input) | If `True`, the wenglor nodes write to the robot log. |
+///
 
 Features and other variables used by the examples:
+
+/// html | div.col-widths
+    attrs: {style: "--w1: 25%; --w2: 15%; --w3: 60%;"}
 
 | Name | Kind | Description |
 | --- | --- | --- |
@@ -202,6 +213,7 @@ Features and other variables used by the examples:
 | `detection_pose` | feature | The detection pose. Camera on robot: variable waypoint from the URCap. Camera not on robot: a fixed taught waypoint. |
 | `pose_in_machine` | waypoint | Example pose taught relative to `w_ref_frame` in `update_reference_frame`. |
 | `poses_taught` | boolean | In the **Before Start** section. Set to `True` once the poses have been taught relative to the updated `w_ref_frame`. |
+///
 
 ### Units and conventions
 

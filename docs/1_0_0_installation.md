@@ -1,4 +1,4 @@
-# Installation of URCap
+# 1. Installation of URCap
 
 The **wenglor robot vision** URCap adds installation and program nodes to Polyscope 5 that connect the robot to a wenglor Machine Vision Device, calibrate the camera to the robot, and detect objects.
 
@@ -42,8 +42,8 @@ After the reboot, the URCap is displayed with a **green hook**, indicating a suc
 <img src="images/03_urcap_installed.png" alt="TODO: URCap installed green hook" class="uniform-width-600"/>
 </figure>
 
-> NOTE
->
-> On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
+!!! note
 
-Once the URCap is installed, continue with [User Configuration](../2_0_user_configuration/index.md) to configure the connection and run the calibration.
+    On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
+
+Once the URCap is installed, continue with [User Configuration](2_0_0_user_configuration.md) to configure the connection and run the calibration.

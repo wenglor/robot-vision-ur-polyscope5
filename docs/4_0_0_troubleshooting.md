@@ -1,4 +1,4 @@
-# Troubleshooting
+# 4. Troubleshooting
 
 ## URCap not installed / no green hook
 
@@ -32,7 +32,7 @@ Calibration can only be started when the **Calibration** tab system status LED i
 
 ## Calibration incomplete (camera not on robot)
 
-- A yellow **Calibration** tab LED can mean the **second calibration step** is missing. For camera-not-on-robot, place the calibration target on the object plane and trigger the second step (one image is captured). See [User Configuration → Camera not on robot](../2_0_user_configuration/index.md#camera-not-on-robot).
+- A yellow **Calibration** tab LED can mean the **second calibration step** is missing. For camera-not-on-robot, place the calibration target on the object plane and trigger the second step (one image is captured). See [User Configuration → Camera not on robot](2_0_0_user_configuration.md#camera-not-on-robot).
 - Calculating the calibration results takes some time — wait until it completes.
 
 ## Insufficient calibration accuracy
@@ -51,7 +51,7 @@ For the general calibration guidelines, see the [Wenglor Robot Server overview](
 ## `w_ref_frame` update is lost after restart
 
 - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation** before shutting down the robot.
-- Because the program reads installation feature values only at program start, an **Assignment node** is required to update `w_ref_frame` within the program run. See [UR Program → `update_reference_frame`](../3_0_robot_program/index.md#update_reference_frame).
+- Because the program reads installation feature values only at program start, an **Assignment node** is required to update `w_ref_frame` within the program run. See [UR Program → `update_reference_frame`](3_0_0_robot_program.md#update_reference_frame).
 
 ## Error codes returned by the device
 
