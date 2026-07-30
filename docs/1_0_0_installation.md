@@ -44,6 +44,6 @@ After the reboot, the URCap is displayed with a **green hook**, indicating a suc
 
 !!! note
 
-    On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
+    On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
 
 Once the URCap is installed, continue with [User Configuration](2_0_0_user_configuration.md) to configure the connection and run the calibration.

@@ -1,4 +1,4 @@
-# 3. UR Program
+# 3. Robot Program
 
 The **wenglor robot vision** URCap adds program nodes to change the uniVision job, detect objects, get the object pose, detect the calibration target, and recalibrate to the target.
 
@@ -111,9 +111,9 @@ Like `single_detection`, but wraps **Get object pose** in a **`while we_num_obje
 
 ### `update_reference_frame`
 
-Run from the **Main** program. It shows how the calibration target pose can update a reference frame — and, with it, all related poses (see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual). Typical use is mobile platforms, correcting the positional deviation in front of a machine or shelf.
+Run from the **Main** program. It shows how the calibration target pose can update a reference frame — and, with it, all related poses (see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_0_robot_vision_server/) in the wenglor robot vision manual). A typical use case is a mobile platform correcting positional deviation in front of a machine or shelf.
 
-The **Detect target** node is the URCap front end for the `target:pose` command described in [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/) in the wenglor robot vision manual — that page also covers `calibration:target`, which this URCap exposes as its own **Calibrate to target** node (see below).
+The **Detect target** node is the URCap front end for the `target:pose` command described in [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_6_0_target_pose_and_camera_to_target/) in the wenglor robot vision manual — that page also covers `calibration:target`, which this URCap exposes as its own **Calibrate to target** node (see below).
 
 The example flow:
 
@@ -170,19 +170,23 @@ Configured once under **Installation → URCaps → "wenglor robot vision"**. Se
 
 Placed in the robot program from the **URCaps** section of the left-hand drop-down menu.
 
+/// html | div.col-widths
+    attrs: {style: "--w1: 36%; --w2: 28%; --w3: 36%;"}
+
 | Node | Input | Output / effect |
 | --- | --- | --- |
 | **Change job** | uniVision job file name (`jobNameKey`) | Loads the given job on the Processing Instance. Use **Test loading job** to verify the name. |
 | **Detect objects** | — | Triggers a detection and fills the robot-server buffer. Sets `we_num_objects`. Acts as parent for **Get object pose**. |
 | **Get object pose** | (reads the next object from the buffer) | Sets `we_object_pose`, `we_shape_model`, `we_custom_value`, and `we_pose_valid`. |
-| **Detect target** | target index (`targetSelectorDetectTargetIndexKey`, default `0`) | Detects the calibration target; sets `we_target_pose`, `we_custom_value`, and `we_pose_valid`. Front end for the `target:pose` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/). |
-| **Calibrate to target** | target index (`targetSelectorCalibrateTargetIndexKey`) | Recalibrates the camera-to-ground relation against the target; result is cached only (no new calibration file). Requires an active device connection. Front end for the `calibration:target` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_6_0_target_pose_and_camera_to_target/). |
+| **Detect target** | target index (`targetSelectorDetectTargetIndexKey`, default `0`) | Detects the calibration target; sets `we_target_pose`, `we_custom_value`, and `we_pose_valid`. Front end for the `target:pose` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_6_0_target_pose_and_camera_to_target/). |
+| **Calibrate to target** | target index (`targetSelectorCalibrateTargetIndexKey`) | Recalibrates the camera-to-ground relation against the target; result is cached only (no new calibration file). Requires an active device connection. Front end for the `calibration:target` command — see [Target Pose and Camera-to-Target Calibration](https://wenglor.github.io/robot-vision-generic-string/4_6_0_target_pose_and_camera_to_target/). |
+///
 
 Updating the `w_ref_frame` reference frame is **not** a dedicated node: the example uses a standard **Assignment** node to assign `we_target_pose` (from **Detect target**) to the `w_ref_frame` installation feature.
 
 !!! note
 
-    The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
+    The URCap nodes are a graphical front end for the generic string based robot vision API. For the underlying commands, return values, and error codes, see the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
 
 ### Program variables
 
@@ -222,4 +226,4 @@ The generic robot vision API uses the following conventions, which the URCap map
 - Positions `x, y, z` are exchanged in **meters** — the same unit UR uses for poses.
 - Orientations `rx, ry, rz` are exchanged as a **rotation vector** (Rodrigues convention, in radians) — the same convention UR uses for its pose orientation.
 
-Because UR poses already use meters and a rotation vector, the pose format matches the generic API directly. See the command tables in the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.
+Because UR poses already use meters and a rotation vector, the pose format matches the generic API directly. See the command tables in the [Generic Robot Vision Interface](https://wenglor.github.io/robot-vision-generic-string/4_7_0_generic_robot_vision_interface/) in the wenglor robot vision manual.

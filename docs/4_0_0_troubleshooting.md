@@ -13,7 +13,7 @@ The **Connection** tab LED is red or the connection status is red:
 - Check the cables and the network setup — the robot and the Machine Vision Device must be in the **same network**.
 - Verify the IP address (default `192.168.100.1`) and port (default `6008`) in the **Connection** tab.
 - Make sure **RTDE** (Real Time Data Exchange) is enabled in the UR security settings.
-- Ensure the robot server on the device is active with **UR Polyscope 5 URCap** selected as the robot manufacturer (device website → Jobs → Robot Server). See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
+- Ensure the robot server on the device is active with **UR Polyscope 5 URCap** selected as the robot manufacturer (device website → Jobs → Robot Server). See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
 
 ## Processing Instance or Device Robot Vision status is red
 
@@ -42,7 +42,7 @@ Calibration can only be started when the **Calibration** tab system status LED i
 - Make sure the calibration target covers as much of the camera image as possible and is fully visible.
 - Prefer a wenglor ZVZJ calibration target and select the correct target size.
 
-For the general calibration guidelines, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual.
+For the general calibration guidelines, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_0_robot_vision_server/) in the wenglor robot vision manual.
 
 ## Detection pose issues (camera on robot)
 
@@ -51,8 +51,8 @@ For the general calibration guidelines, see the [Wenglor Robot Server overview](
 ## `w_ref_frame` update is lost after restart
 
 - `w_ref_frame` is saved in the **installation**, not in the program. **Save the installation** before shutting down the robot.
-- Because the program reads installation feature values only at program start, an **Assignment node** is required to update `w_ref_frame` within the program run. See [UR Program → `update_reference_frame`](3_0_0_robot_program.md#update_reference_frame).
+- Because the program reads installation feature values only at program start, an **Assignment node** is required to update `w_ref_frame` within the program run. See [Robot Program → `update_reference_frame`](3_0_0_robot_program.md#update_reference_frame).
 
 ## Error codes returned by the device
 
-If the robot server returns a negative error code (`-5001` … `-5010`), it indicates a problem on the vision-device side. For the meaning of each code, see the [Generic Robot Vision Interface → Error codes](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/4_7_0_generic_robot_vision_interface/#error-codes) in the wenglor robot vision manual.
+If the robot server returns a negative error code (`-5001` … `-5010`), it indicates a problem on the vision-device side. For the meaning of each code, see the [Generic Robot Vision Interface → Error codes](https://wenglor.github.io/robot-vision-generic-string/4_7_0_generic_robot_vision_interface/#error-codes) in the wenglor robot vision manual.

@@ -41,9 +41,9 @@ The connection tab shows three status indicators:
 
 ## Calibration options tab
 
-Select whether the camera is **mounted on the robot** or **not on the robot**, and choose the size of the **ZVZJ calibration target**. This is the same target selection used by the **Detect target** and **Calibrate to target** program nodes — their "target index" selects among the target sizes configured here, not a separate per-job target list (see [UR Program](3_0_0_robot_program.md)).
+Select whether the camera is **mounted on the robot** or **not on the robot**, and choose the size of the **ZVZJ calibration target**. This is the same target selection used by the **Detect target** and **Calibrate to target** program nodes — their "target index" selects among the target sizes configured here, not a separate per-job target list (see [Robot Program](3_0_0_robot_program.md)).
 
-Enter the name of the uniVision job for calibration and load it — this job is loaded every time the calibration procedure is started. Set the number of calibration poses between **5 and 11** (default: 5). More poses generally improve the calibration result (e.g. seven to eleven poses).
+Enter the name of the uniVision job for calibration and load it — this job is loaded every time the calibration procedure is started. Set the number of calibration poses between **5 and 11** (default: 5). More poses generally improve the calibration result — seven to eleven is a good starting point.
 
 The tab also provides further information about how to set the calibration poses, including example images from the camera's perspective for the **Set calibration poses** tab.
 
@@ -61,7 +61,7 @@ The calibration poses differ between **camera on robot** and **camera not on rob
 
 !!! note
 
-    - For details about how to choose and vary the calibration poses, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) in the wenglor robot vision manual — they are not repeated here.
+    - For details about how to choose and vary the calibration poses, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_0_robot_vision_server/) in the wenglor robot vision manual — they are not repeated here.
     - For **camera on robot**, keep in mind that the **first calibration pose is also the detection pose** used later.
 
 ## Calibration tab
@@ -110,7 +110,7 @@ The calibration requires **two steps**:
 
 After calibration data is loaded (either just calculated or loaded from a previous file), an additional **verify calibration** step is available — step 2 for camera on robot, step 3 for camera not on robot:
 
-1. Set the **Verification safety offset [mm]** — the robot is guided to a pose this many centimeters **above** the calibration target, rather than directly onto it, as a collision margin.
+1. Set the **Verification safety offset [mm]** — the robot is guided to a pose this many millimeters **above** the calibration target, rather than directly onto it, as a collision margin.
 2. Click **Start guidance** to confirm ("You are about to verify loaded calibration results, do you want to proceed?") and move the robot above the calibration target using the current calibration result. Cancel if the target has been moved since calibrating.
 3. Visually check that the robot is positioned correctly above the target. If not, the calibration data may be corrupt — recalibrate.
 
@@ -118,7 +118,7 @@ After calibration data is loaded (either just calculated or loaded from a previo
 
     For **camera not on robot**, the robot-to-camera and camera-to-ground calibrations are tracked and can be verified independently. If one of them is missing, the URCap reports it (e.g. "No robot to camera calibration data found, perform those calibrations first") instead of starting the guidance move.
 
-    If a previous calibration attempt failed, the URCap warns that the calibration data may be corrupt and that verification is not safe before you proceed.
+    If a previous calibration attempt failed, the URCap warns, before you proceed, that the calibration data may be corrupt and that verification may not be safe.
 
 ## Information tab
 
@@ -128,4 +128,4 @@ The information tab contains details about the different versions as well as the
 <img src="images/05_information_tab.png" alt="Information tab" class="uniform-width-800"/>
 </figure>
 
-Once the calibration is complete, continue with the [UR Program](3_0_0_robot_program.md).
+Once the calibration is complete, continue with the [Robot Program](3_0_0_robot_program.md).
