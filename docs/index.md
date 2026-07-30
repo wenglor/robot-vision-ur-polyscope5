@@ -16,34 +16,26 @@ The URCap adds installation nodes (connection, calibration) and program nodes (C
 
 !!! note
 
-    The URCap and the robot example are available on [www.wenglor.com/product/DNNF023](https://www.wenglor.com/product/DNNF023) → Downloads → Programming examples and configuration files → Examples_Robot_Vision.
+    The URCap and the robot example are available in this repository's [`sources`](https://github.com/wenglor/robot-vision-ur-polyscope5/tree/main/sources) directory.
 
-## Contents
+---
 
-<div class="grid cards" markdown>
+## How the manual is organized
 
-- :material-download: **[Installation of URCap](1_0_installation/index.md)**
+```mermaid
+graph LR
+    A[1. Installation of URCap] --> B[2. User Configuration]
+    B --> C[3. Robot Program]
+    C -.-> D[4. Troubleshooting]
+    D -.-> E[5. Support & Feedback]
+```
 
-    Install the "wenglor robot vision" URCap from a USB stick onto the UR Teach Panel.
-
-- :material-tune: **[User Configuration](2_0_user_configuration/index.md)**
-
-    Configure the connection to the Machine Vision Device and calibrate the camera to the robot.
-
-- :material-robot-industrial: **[UR Program](3_0_robot_program/index.md)**
-
-    The URCap program nodes, the detection workflow, the example subroutines, and the full node reference.
-
-- :material-wrench: **[Troubleshooting](4_0_troubleshooting/index.md)**
-
-    LED status meanings, connection issues, device error codes, and how to resolve them.
-
-- :material-lifebuoy: **[Support & Feedback](5_0_support_and_feedback/index.md)**
-
-    Report bugs, request features, and find downloads.
-
-</div>
+1. [Installation of URCap](1_0_0_installation.md) — install the "wenglor robot vision" URCap from a USB stick onto the UR Teach Panel.
+2. [User Configuration](2_0_0_user_configuration.md) — configure the connection to the Machine Vision Device and calibrate the camera to the robot.
+3. [Robot Program](3_0_0_robot_program.md) — the URCap program nodes, the detection workflow, the example subroutines, and the full node reference.
+4. [Troubleshooting](4_0_0_troubleshooting.md) — LED status meanings, connection issues, device error codes, and how to resolve them.
+5. [Support & Feedback](5_0_0_support_and_feedback.md) — report bugs, request features, and find downloads.
 
 !!! note
 
-    The generic robot vision API (commands, return values, error codes), the calibration guidelines, and the uniVision job setup are documented once in the [wenglor robot vision manual](https://wenglor.github.io/robot-vision-generic-string/4_0_robot_vision_server/) and are **not** repeated here. This manual only describes how the UR Polyscope 5 URCap uses them.
+    The generic robot vision API (commands, return values, error codes), the calibration guidelines, and the uniVision job setup are documented once in the [wenglor robot vision manual](https://wenglor.github.io/robot-vision-generic-string/4_0_0_robot_vision_server/) and are **not** repeated here. This manual only describes how the UR Polyscope 5 URCap uses them.

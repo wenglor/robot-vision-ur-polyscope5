@@ -49,8 +49,8 @@ The [`sources`](sources) directory contains:
 
 ## Installation
 
-1. Download the latest URCap from [www.wenglor.com/product/DNNF023](https://www.wenglor.com/product/DNNF023) → Downloads → Programming examples and configuration files → Examples_Robot_Vision, and copy it onto a freshly formatted USB stick.
-2. Plug the USB stick into the UR Teach Panel, open the menu in the top-right corner → **System → URCaps → +**.
+1. Get the latest URCap from this repository's own [`sources`](sources) directory (see [Files](#files) above), and copy it onto a freshly formatted USB stick.
+2. Plug the USB stick into the UR Teach Panel, open the menu in the top right corner → **System → URCaps → +**.
 3. Select the **"wenglor robot vision"** URCap file and **restart the robot**.
 4. After the reboot, the URCap shows a green hook.
 5. On the device website (Jobs → Robot Server), set the robot manufacturer to **UR Polyscope 5 URCap**.
@@ -62,7 +62,7 @@ The [`sources`](sources) directory contains:
 Under **Installation → URCaps → "wenglor robot vision"**:
 
 1. **Connection tab** — enter the device IP (default `192.168.100.1`) and port (default `6008`), then set the connection slider to on.
-2. **Calibration options tab** — select camera on/not on robot, the ZVZJ plate size, the calibration job, and the number of poses (5–11).
+2. **Calibration options tab** — select camera on/not on robot, the ZVZJ calibration target size, the calibration job, and the number of poses (5–11).
 3. **Set calibration poses tab** — set the calibration poses (for camera on robot, the first pose is also the detection pose).
 4. **Calibration tab** — when the system status LED is green, start the calibration.
 
@@ -79,7 +79,7 @@ In the **Program** tab, build the program from the URCaps nodes:
 - **Get object pose** — read an object into `we_object_pose` / `we_shape_model` / `we_custom_value` / `we_pose_valid`.
 - **Detect target** — detect the calibration target into `we_target_pose`; assign it to `w_ref_frame` with an Assignment node.
 
-Each example program contains three subprograms: `single_detection`, `multi_detection`, and `update_reference_frame`. See the [UR Program](https://wenglor.github.io/robot-vision-ur-polyscope5/3_0_robot_program/) page.
+Each example program contains three subprograms: `single_detection`, `multi_detection`, and `update_reference_frame`. See the [Robot Program](https://wenglor.github.io/robot-vision-ur-polyscope5/3_0_robot_program/) page.
 
 ---
 
