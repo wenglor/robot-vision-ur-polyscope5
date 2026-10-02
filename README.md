@@ -1,6 +1,6 @@
 # wenglor robot vision URCap for UR Polyscope 5
 
-**URCap version:** 1.2.0 · **Example programs:** 1.1.0
+**URCap version:** 1.3.0 · **Example programs:** 1.1.1
 
 This repository documents the **wenglor robot vision** URCap for Universal Robots running Polyscope 5. The URCap connects the generic vision interface to wenglor Machine Vision Devices, adds installation nodes (connection, calibration) and program nodes (Change job, Detect objects, Get object pose, Detect target), and ships with two example robot programs — one per calibration case.
 
@@ -30,8 +30,8 @@ This repository documents the **wenglor robot vision** URCap for Universal Robot
 - A UR E-series robot with Polyscope 5.22+.
 - **Real Time Data Exchange (RTDE)** enabled in the UR security settings.
 - Robot and Machine Vision Device in the same network.
-- A [B60](https://www.wenglor.com/en/Machine-Vision/Smart-Cameras-and-Vision-Sensors/Smart-Camera-B60/c/cxmCID221375) or [Machine Vision Controller (MVC)](https://www.wenglor.com/en/Machine-Vision/Machine-Vision-Controllers/c/cxmCID221381).
-- A [uniVision](https://www.wenglor.com/en/Machine-Vision/Machine-Vision-Software/Image-Processing-Software-uniVision-3/c/cxmCID222459) job for calibration and object detection.
+- A [B60](https://www.wenglor.com/B60) or [Machine Vision Controller (MVC)](https://www.wenglor.com/MachineVisionController).
+- A [uniVision](https://www.wenglor.com/uniVision3) job for calibration and object detection.
 
 ---
 
@@ -41,9 +41,9 @@ The [`sources`](sources) directory contains:
 
 | File | Description |
 | --- | --- |
-| `URCap_wenglorRobotVision_1.2.0.urcap` | The wenglor robot vision URCap for Polyscope 5. |
-| `Camera_on_robot_example_1.1.0.urp` | Example program for the camera-on-robot case. |
-| `Camera_not_on_robot_example_1.1.0.urp` | Example program for the camera-not-on-robot case. |
+| `URCap_wenglorRobotVision_1.3.0.urcap` | The wenglor robot vision URCap for Polyscope 5. |
+| `Camera_on_robot_example_1.1.1.urp` | Example program for the camera-on-robot case. |
+| `Camera_not_on_robot_example_1.1.1.urp` | Example program for the camera-not-on-robot case. |
 
 ---
 
@@ -66,7 +66,7 @@ Under **Installation → URCaps → "wenglor robot vision"**:
 3. **Set calibration poses tab** — set the calibration poses (for camera on robot, the first pose is also the detection pose).
 4. **Calibration tab** — when the system status LED is green, start the calibration.
 
-See the [User Configuration](https://wenglor.github.io/robot-vision-ur-polyscope5/2_0_user_configuration/) page for the full procedure and LED status meanings.
+See the [User Configuration](https://wenglor.github.io/robot-vision-ur-polyscope5/2_0_0_user_configuration/) page for the full procedure and LED status meanings.
 
 ---
 
@@ -79,7 +79,7 @@ In the **Program** tab, build the program from the URCaps nodes:
 - **Get object pose** — read an object into `we_object_pose` / `we_shape_model` / `we_custom_value` / `we_pose_valid`.
 - **Detect target** — detect the calibration target into `we_target_pose`; assign it to `w_ref_frame` with an Assignment node.
 
-Each example program contains three subprograms: `single_detection`, `multi_detection`, and `update_reference_frame`. See the [Robot Program](https://wenglor.github.io/robot-vision-ur-polyscope5/3_0_robot_program/) page.
+Each example program contains three subprograms: `single_detection`, `multi_detection`, and `update_reference_frame`. See the [Robot Program](https://wenglor.github.io/robot-vision-ur-polyscope5/3_0_0_robot_program/) page.
 
 ---
 
@@ -89,7 +89,7 @@ Each example program contains three subprograms: `single_detection`, `multi_dete
 - **Cannot start calibration:** the Calibration tab LED must be green (connected + all poses set).
 - **`w_ref_frame` lost after restart:** save the installation before shutdown.
 
-See the [Troubleshooting](https://wenglor.github.io/robot-vision-ur-polyscope5/4_0_troubleshooting/) page for more.
+See the [Troubleshooting](https://wenglor.github.io/robot-vision-ur-polyscope5/4_0_0_troubleshooting/) page for more.
 
 ---
 

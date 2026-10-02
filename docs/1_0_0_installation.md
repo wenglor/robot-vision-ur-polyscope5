@@ -11,7 +11,7 @@ The **wenglor robot vision** URCap adds installation and program nodes to Polysc
 | RTDE | Real Time Data Exchange must be enabled in the UR security settings |
 | Network | Robot and Machine Vision Device in the same network |
 
-<img src="images/enable_rtde.png" alt="TODO: UR Teach Panel menu" class="uniform-width-600"/>
+<img src="images/enable_rtde.png" alt="UR Teach Panel menu" class="uniform-width-600"/>
 
 ## Download the URCap
 
@@ -39,11 +39,11 @@ Get the latest URCap version from this repository's own [`sources`](https://gith
 After the reboot, the URCap is displayed with a **green hook**, indicating a successful installation.
 
 <figure class="align-left">
-<img src="images/03_urcap_installed.png" alt="TODO: URCap installed green hook" class="uniform-width-600"/>
+<img src="images/03_urcap_installed.png" alt="URCap installed green hook" class="uniform-width-600"/>
 </figure>
 
 !!! note
 
-    On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/4_3_0_settings_on_device_website/) in the wenglor robot vision manual.
+    On the Machine Vision Device website (tab `Jobs` → `Robot Server`), make sure the robot server is active and the robot manufacturer is set to **UR Polyscope 5 URCap**. See [Settings on Device Website](https://wenglor.github.io/robot-vision-generic-string/5_2_0_settings_on_device_website/) in the wenglor robot vision manual.
 
 Once the URCap is installed, continue with [User Configuration](2_0_0_user_configuration.md) to configure the connection and run the calibration.
