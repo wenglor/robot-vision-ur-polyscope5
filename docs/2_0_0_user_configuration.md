@@ -61,7 +61,7 @@ The calibration poses differ between **camera on robot** and **camera not on rob
 
 !!! note
 
-    - For details about how to choose and vary the calibration poses, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/4_0_0_robot_vision_server/) in the wenglor robot vision manual — they are not repeated here.
+    - For details about how to choose and vary the calibration poses, see the [Wenglor Robot Server overview](https://wenglor.github.io/robot-vision-generic-string/5_1_0_basics_with_robot_server/) in the wenglor robot vision manual — they are not repeated here.
     - For **camera on robot**, keep in mind that the **first calibration pose is also the detection pose** used later.
 
 ## Calibration tab
